@@ -1,7 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
 body{
     font-family: "Ubuntu Mono", Tahoma;
-    background: url("./bkg/bkg3.jpg");
+    background: url("./bkg/bkg9.jpg");
+    background-size: 100%;
 }
 a{
     color: lawngreen;
@@ -13,8 +14,8 @@ p{
 #console{
     display: block;
     position: absolute;
-    top: 30%;
-    left: 30%;
+    top: 10%;
+    left: 10%;
     //margin-left: auto;
     //margin-right: auto;
     //margin-top: 10%;
@@ -28,8 +29,9 @@ p{
     overflow-x: hidden;
     background: #000;
     height: 500px;
-    opacity: 0.8;
-    color: lawngreen;
+    opacity: 0.9;
+    /*color: lawngreen;*/
+    color: #ffffff;
 }
 #bar{
     display: block;
@@ -68,7 +70,8 @@ input::-webkit-input-placeholder{
     background: #000;
     opacity: 0.99;
     width: 550px;
-    color: lawngreen;
+    /*color: lawngreen;*/
+    color: #ffffff;
     border: none;
     font-family: "Ubuntu Mono", Tahoma;
     font-size: 12pt;
