@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 body{
     font-family: "Ubuntu Mono", Tahoma;
     background: url("./bkg/bkg9.jpg");
@@ -48,7 +49,7 @@ p{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#0e0e0e',GradientType=0 ); /* IE6-9 */
     opacity: 0.99;
 }
-button{
+#close{
     height:16px;
     margin-top: 8px;
     margin-left: 10px;
@@ -75,4 +76,29 @@ input::-webkit-input-placeholder{
     border: none;
     font-family: "Ubuntu Mono", Tahoma;
     font-size: 12pt;
+}
+/* terminal Icon */
+#icon{
+    width: 60px;
+    height: 60px;
+    display: block;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+#icon :hover{
+    cursor: default;
+}
+
+#icon img{
+    display: block;
+}
+#iconname{
+    position: relative;
+    color: #ffffff;
+    font-family: "Ubuntu", Tahoma;
+    font-size: smaller;
+}
+.color{
+    color: #0097e4;
 }

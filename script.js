@@ -1,16 +1,54 @@
 /**
  * Created by Mohsen on 9/30/2016.
  */
-
+var commands = [];          //history of commands for arrow keys
+var currentcommand = -1;    //pointer for up and down arrow key
+var isInsertable = true;    //boolean to check when to insert command to commands array
+var terminalIcon = 'free'; //'free' or 'selected' for changing the background color of terminal icon
 window.onload = function() {
     document.getElementById('command').onkeydown = function (event) {
         var e = event || window.event;
-        if (e.keyCode == 13) {
+        if (e.keyCode == 13) { //user hits Enter
             process();
         }
-    }
+        else if(e.keyCode == 38){ //user hits up arrow key
+            setCommandFromHistory('up');
+        }
+        else if(e.keyCode == 40){ //user hits down arrow key
+            setCommandFromHistory('down');
+        }
+    };
+    document.onclick = function (event) {
+        console.log(event.target.parentNode);
+        if(event.target.parentNode.id == 'icon'){
+            if(terminalIcon == 'free') {
+                document.getElementById("iconname").style.backgroundColor = '#e46b37';
+                terminalIcon = 'selected';
+            }
+        }
+        else if(event.target.parentNode.id == 'bar'){
+            document.getElementById('console').style.display = 'none';
+        }
+        else{
+            document.getElementById("iconname").style.backgroundColor = 'transparent';
+            terminalIcon = 'free';
+        }
+    };
+    $( "#icon" ).dblclick(function() {
+        document.getElementById('console').style.display = 'block';
+        var removables = document.getElementsByClassName('results');
+        var numremovables = removables.length;
+        for (var i=0 ; i<numremovables; i++){
+            //remove the first element cause first element changes after every removing
+            document.getElementById('history').removeChild(removables[0]);
+        }
+        currentcommand = -1;
+        commands = [];
+    });
+
 }
 function process() {
+//general things to do for all comands before executing known commands
     var command = document.getElementById('command').value;
     var history = document.getElementById("history");
     var para = document.createElement("p");
@@ -19,16 +57,23 @@ function process() {
     para.innerHTML = "user@mohsenansari.com:~$ "+command;
     //para.appendChild(node);
     history.appendChild(para);
+    if(isInsertable){
+        commands.unshift(command);
+    }
+    else{
+        isInsertable = true;
+        currentcommand = -1;
+    }
     document.getElementById('command').value = ""
     if(command.toLowerCase() == "help"){
         var par = document.createElement("p");
         par.setAttribute('class', 'results');
         par.innerHTML = "list of possible commands are: <br>" +
-            "download resume: to generate a link to my resume in pdf format <br>" +
-            "change background: to randomly change the picture in the background to another space cat image! <br>" +
-            "bio: to get a brief inroduction of me <br>" +
-            "clear: to clear the terminal from previous commands<br>" +
-            "projects: to get the links to my projects including this website<br><br>";
+            "<span class='color'> download resume:</span> to generate a link to my resume in pdf format <br>" +
+            "<span class='color'>change background:</span> to randomly change the picture in the background to another space cat image! <br>" +
+            "<span class='color'>bio:</span> to get a brief inroduction of me <br>" +
+            "<span class='color'>clear:</span> to clear the terminal from previous commands<br>" +
+            "<span class='color'>projects:</span> to get the links to my projects including this website<br><br>";
         history.appendChild(par);
     }
     else if(command.toLowerCase() == "download resume"){
@@ -95,15 +140,25 @@ function process() {
         para.appendChild(node);
         history.appendChild(para);
     }
+    //auto scrolling to command line view at the end
+    document.getElementById( 'command' ).scrollIntoView();
 }
 
-var bar = document.querySelector('#bar');
+//drag and drop for terminal window;
 interact('#bar')
     .draggable({
         intertia: true,
-        onmove: dragMoveListener
+        onstart: function (event) {
+            document.getElementById('bar').style.cursor = 'default';
+        },
+        onmove: dragMoveListener,
+        onend: function (event) {
+            document.getElementById('bar').style.cursor = 'default';
+        }
     });
+
 function dragMoveListener (event) {
+    document.getElementById('bar').style.cursor = 'move';
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.parentNode.getAttribute('data-x')) || 0) + event.dx,
@@ -120,4 +175,57 @@ function dragMoveListener (event) {
 }
 function getfocus() {
     document.getElementById("command").focus();
+}
+function setCommandFromHistory(key) {
+    if(key == 'up'){
+        if(currentcommand < commands.length - 1){
+            currentcommand ++;
+            document.getElementById('command').value = commands[currentcommand];
+            isInsertable = false;
+        }
+    }
+    else if(key == 'down'){
+        if(currentcommand > 0){
+            currentcommand--;
+            document.getElementById('command').value = commands[currentcommand];
+            isInsertable = false;
+        }
+        else if(currentcommand == 0){
+            currentcommand--;
+            document.getElementById('command').value = "";
+        }
+    }
+    console.log(currentcommand);
+}
+//drag and frop for terminal icon
+interact('#icon')
+    .draggable({
+        intertia: true,
+        onmove: dragMoveListener2,
+        snap: { mode: 'grid',
+            grid: {
+                x: 100,
+                y: 100
+            },
+            gridOffset: {
+                x: 20,
+                y: 10
+            },
+            range: Infinity // can also use -1 which gets changed to Infinity
+        }
+    });
+function dragMoveListener2 (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.webkitTransform =
+        target.style.transform =
+            'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
 }

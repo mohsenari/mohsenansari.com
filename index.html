@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="./style.css">
     <script src="//cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="application/javascript" src="./script.js"></script>
     <title>My personal website</title>
 </head>
 <body>
+    <div id="icon">
+        <img src="./bkg/terminal_icon.png" width="55px" height="50px" >
+        <div id="iconname">Terminal</div>
+    </div>
     <div id="console">
         <div id="bar">
-            <button>&nbsp</button>
+            <button id="close">&nbsp</button>
             user@mohsenansari.com:~
         </div>
         <div id="workspace" onclick="getfocus()">
