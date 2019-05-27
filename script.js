@@ -79,7 +79,7 @@ function process() {
     else if(command.toLowerCase() == "download resume"){
         var link = document.createElement("a");
         var reslink = document.createTextNode("MohsenAnsariResume.pdf");
-        link.setAttribute('href', "http://mohsenansari.com/resume/MohsenAnsariResume.pdf");
+        link.setAttribute('href', "./resume/MohsenAnsariResume.pdf");
         link.setAttribute('class', 'results');
         link.setAttribute('target', "_blank");
         link.appendChild(reslink);
